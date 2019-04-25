@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.drop-box {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    height: 160px;
+    border: 3px dashed #dddddd;
+}
+
+.drop-text {
+    font-size: 12pt;
+    color: #b9b9b9;
+}
+
+.file-button {
+    margin-top: 12px;
+    text-align: center;
+    color: white;
+    font-size: 12pt;
+    background: #30b1ff;
+    padding: 4px 8px 4px 8px;
+}
+
+.file-button:hover {
+    box-shadow: #95a1b2 0 0 10px;
+}
+
+.file-button:active {
+    background: #2588c4;
+}
+
+.notice {
+    margin-top: 15px;
+    color: #999999;
+    font-size: 12px;
+    height: 15px;
+    line-height: 15px;
+}
+
+.convert-button {
+    width: 60%;
+    height: 60px;
+    margin-top: 20px;
+}

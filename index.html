@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>excel</title>
+    <script src="./node_modules/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="extensions.js"></script>
+    <script src="utils.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<script>
+
+
+    function allowDrag(event) {
+        event.preventDefault();
+    }
+
+    var file = null;
+
+    function drop(event) {
+        event.preventDefault();
+        file = event.dataTransfer.files[0];
+        document.getElementById('notice').innerHTML = `已放入文件：${file.name}`;
+
+    }
+
+    function convert() {
+        if (file == null) return;
+
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let data = e.target.result;
+            let workbook = XLSX.read(data, {type: 'binary'});
+            let firstSheetName = workbook.SheetNames[0];
+            let originSheet = workbook.Sheets[firstSheetName];
+            let resultSheet = handleSheet(originSheet);
+            if (!resultSheet) return;
+
+            let resultWb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(resultWb, resultSheet, 'Sheet1');
+            XLSX.writeFile(resultWb, 'result.xlsx');
+
+        };
+        reader.readAsBinaryString(file);
+
+
+    }
+
+    function onInputFile(event) {
+        file = event.target.files[0];
+        document.getElementById('notice').innerHTML = `已放入文件：${file.name}`;
+    }
+
+</script>
+<body>
+<div class="container">
+    <div class="drop-box" ondrop="drop(event)" ondragover="allowDrag(event)">
+        <div class="drop-text">将文件拖拽到这里,或</div>
+        <label for="input" class="file-button">点击选择文件</label>
+        <input type="file" value="" id="input" style="position:absolute;clip:rect(0 0 0 0);" onchange="onInputFile(event)"/>
+    </div>
+
+    <div class="notice" id="notice"></div>
+
+    <button onclick="convert()" class="convert-button">转换</button>
+    <!--<button onclick="test()"> test</button>-->
+
+</div>
+</body>
+</html>
